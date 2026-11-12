@@ -1,25 +1,180 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World with Typescript</title>
+    <meta name="theme-color" content="#f4f4f5" />
+    <title>Gestor de asientos | Cine</title>
   </head>
-  <body class="min-h-screen bg-slate-100 text-slate-900">
-    <main class="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-6 p-6">
-      <h1 class="text-4xl font-bold tracking-tight">Hello World with Typescript</h1>
-
-      <section class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <img
-          src="/rigo-baby.jpg"
-          alt="Hello Rigo"
-          class="h-64 w-full bg-slate-50 object-contain p-2"
-        />
-        <div class="p-5">
-          <h2 class="text-xl font-semibold text-slate-900">Hello Rigo</h2>
-          <p id="app" class="mt-2 text-sm text-slate-600"></p>
+  <body class="min-h-screen bg-zinc-50 font-sans text-zinc-950 antialiased">
+    <header class="border-b border-zinc-200 bg-white">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
+        <div class="flex items-center gap-3">
+          <div class="flex size-10 items-center justify-center rounded-lg bg-emerald-700 text-sm font-bold text-white" aria-hidden="true">C</div>
+          <div>
+            <p class="text-xs font-semibold uppercase text-emerald-800">Cine · Taquilla</p>
+            <h1 class="font-serif text-2xl font-semibold leading-tight">Gestor de asientos</h1>
+          </div>
         </div>
+        <p class="hidden text-sm text-zinc-500 sm:block">Sala 1 <span class="px-1 text-zinc-300">/</span> Sesión de hoy</p>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-10">
+      <section aria-label="Resumen de la sala" class="mb-8 flex flex-wrap items-end justify-between gap-5">
+        <div>
+          <p class="text-sm font-medium text-zinc-500">Disponibilidad de la sala</p>
+          <p class="mt-1 text-sm text-zinc-600">Selecciona los asientos que solicita el cliente</p>
+        </div>
+        <dl class="flex gap-3">
+          <div class="min-w-32 rounded-lg border border-zinc-200 bg-white px-4 py-3">
+            <dt class="text-xs font-medium text-zinc-500">Disponibles</dt>
+            <dd id="available-count" class="mt-1 text-2xl font-semibold tabular-nums text-emerald-800">54</dd>
+          </div>
+          <div class="min-w-32 rounded-lg border border-zinc-200 bg-white px-4 py-3">
+            <dt class="text-xs font-medium text-zinc-500">Reservados</dt>
+            <dd id="occupied-count" class="mt-1 text-2xl font-semibold tabular-nums text-rose-700">26</dd>
+          </div>
+        </dl>
       </section>
+
+      <div class="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_19rem]">
+        <section aria-labelledby="map-title" class="min-w-0 border-y border-zinc-200 bg-white px-4 py-6 sm:px-7 sm:py-8">
+          <div class="mb-7 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 id="map-title" class="text-lg font-semibold">Mapa de asientos</h2>
+              <p class="mt-1 text-sm text-zinc-500">Sala 1 · 8 filas · 10 asientos por fila</p>
+            </div>
+            <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs text-zinc-600" aria-label="Estados de los asientos">
+              <span class="inline-flex items-center gap-2"><span class="size-3 rounded-sm border border-zinc-300 bg-white" aria-hidden="true"></span>Disponible</span>
+              <span class="inline-flex items-center gap-2"><span class="size-3 rounded-sm bg-emerald-700" aria-hidden="true"></span>Seleccionado</span>
+              <span class="inline-flex items-center gap-2"><span class="size-3 rounded-sm bg-rose-200" aria-hidden="true"></span>Reservado</span>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto pb-2">
+            <div class="mx-auto min-w-[39rem] max-w-3xl">
+              <div class="mb-8 px-8">
+                <div class="h-1 rounded-full bg-zinc-300"></div>
+                <p class="mt-2 text-center text-[10px] font-semibold uppercase text-zinc-400">Pantalla</p>
+              </div>
+              <div class="grid grid-cols-[1.75rem_repeat(10,minmax(2.25rem,1fr))] items-center gap-x-2 gap-y-3" role="group" aria-label="Asientos de la sala, filas A a H">
+                <span aria-hidden="true"></span><span class="text-center text-xs text-zinc-400">1</span><span class="text-center text-xs text-zinc-400">2</span><span class="text-center text-xs text-zinc-400">3</span><span class="text-center text-xs text-zinc-400">4</span><span class="text-center text-xs text-zinc-400">5</span><span class="text-center text-xs text-zinc-400">6</span><span class="text-center text-xs text-zinc-400">7</span><span class="text-center text-xs text-zinc-400">8</span><span class="text-center text-xs text-zinc-400">9</span><span class="text-center text-xs text-zinc-400">10</span>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">A</span>
+                <button type="button" disabled aria-label="Fila A, asiento 1, reservado" class="size-9 justify-self-center rounded-md border border-rose-200 bg-rose-100 text-xs font-medium text-rose-800 disabled:cursor-not-allowed sm:size-10">1</button>
+                <button type="button" disabled aria-label="Fila A, asiento 2, reservado" class="size-9 justify-self-center rounded-md border border-rose-200 bg-rose-100 text-xs font-medium text-rose-800 disabled:cursor-not-allowed sm:size-10">2</button>
+                <button type="button" aria-label="Fila A, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila A, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila A, asiento 5, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">5</button>
+                <button type="button" aria-label="Fila A, asiento 6, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">6</button>
+                <button type="button" aria-label="Fila A, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila A, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila A, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila A, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">B</span>
+                <button type="button" aria-label="Fila B, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila B, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila B, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila B, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" disabled aria-label="Fila B, asiento 5, reservado" class="size-9 justify-self-center rounded-md border border-rose-200 bg-rose-100 text-xs font-medium text-rose-800 disabled:cursor-not-allowed sm:size-10">5</button>
+                <button type="button" disabled aria-label="Fila B, asiento 6, reservado" class="size-9 justify-self-center rounded-md border border-rose-200 bg-rose-100 text-xs font-medium text-rose-800 disabled:cursor-not-allowed sm:size-10">6</button>
+                <button type="button" aria-label="Fila B, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila B, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila B, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila B, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">C</span>
+                <button type="button" aria-label="Fila C, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila C, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila C, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila C, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila C, asiento 5, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">5</button>
+                <button type="button" aria-label="Fila C, asiento 6, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">6</button>
+                <button type="button" aria-label="Fila C, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila C, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila C, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila C, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">D</span>
+                <button type="button" aria-label="Fila D, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila D, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila D, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila D, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila D, asiento 5, seleccionado" aria-pressed="true" class="size-9 justify-self-center rounded-md border-2 border-emerald-800 bg-emerald-700 text-xs font-semibold text-white sm:size-10">5</button>
+                <button type="button" aria-label="Fila D, asiento 6, seleccionado" aria-pressed="true" class="size-9 justify-self-center rounded-md border-2 border-emerald-800 bg-emerald-700 text-xs font-semibold text-white sm:size-10">6</button>
+                <button type="button" aria-label="Fila D, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila D, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila D, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila D, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">E</span>
+                <button type="button" aria-label="Fila E, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila E, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila E, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila E, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila E, asiento 5, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">5</button>
+                <button type="button" aria-label="Fila E, asiento 6, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">6</button>
+                <button type="button" aria-label="Fila E, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila E, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila E, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila E, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">F</span>
+                <button type="button" aria-label="Fila F, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila F, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila F, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila F, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila F, asiento 5, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">5</button>
+                <button type="button" aria-label="Fila F, asiento 6, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">6</button>
+                <button type="button" aria-label="Fila F, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila F, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila F, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila F, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">G</span>
+                <button type="button" aria-label="Fila G, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila G, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila G, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila G, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila G, asiento 5, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">5</button>
+                <button type="button" aria-label="Fila G, asiento 6, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">6</button>
+                <button type="button" aria-label="Fila G, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila G, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila G, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila G, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+
+                <span class="text-center text-sm font-semibold text-zinc-500">H</span>
+                <button type="button" aria-label="Fila H, asiento 1, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">1</button>
+                <button type="button" aria-label="Fila H, asiento 2, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">2</button>
+                <button type="button" aria-label="Fila H, asiento 3, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">3</button>
+                <button type="button" aria-label="Fila H, asiento 4, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">4</button>
+                <button type="button" aria-label="Fila H, asiento 5, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">5</button>
+                <button type="button" aria-label="Fila H, asiento 6, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">6</button>
+                <button type="button" aria-label="Fila H, asiento 7, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">7</button>
+                <button type="button" aria-label="Fila H, asiento 8, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">8</button>
+                <button type="button" aria-label="Fila H, asiento 9, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">9</button>
+                <button type="button" aria-label="Fila H, asiento 10, disponible" aria-pressed="false" class="size-9 justify-self-center rounded-md border border-zinc-300 bg-white text-xs font-medium text-zinc-700 sm:size-10">10</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside aria-labelledby="selection-title" class="border-y border-zinc-200 bg-white p-5 sm:p-6">
+          <h2 id="selection-title" class="text-lg font-semibold">Selección actual</h2>
+          <p id="selected-count" class="mt-1 text-sm text-zinc-500">0 asientos seleccionados</p>
+          <div id="selected-seat-list" class="mt-4 min-h-5 text-sm font-medium text-emerald-900" aria-label="No hay asientos seleccionados">
+            <span class="text-sm text-zinc-400">Ninguno</span>
+          </div>
+          <div class="mt-6 grid gap-2 border-t border-zinc-100 pt-5">
+            <button id="find-adjacent" type="button" class="min-h-11 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-800 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700">Buscar dos juntos</button>
+            <button id="reserve-selection" type="button" disabled class="min-h-11 rounded-md bg-emerald-800 px-4 text-sm font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 disabled:cursor-not-allowed disabled:opacity-50">Reservar selección</button>
+            <button id="clear-selection" type="button" disabled class="min-h-11 rounded-md px-4 text-sm font-semibold text-zinc-600 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 disabled:cursor-not-allowed disabled:text-zinc-400">Limpiar selección</button>
+          </div>
+          <p id="operation-messages" role="status" aria-live="polite" class="mt-5 whitespace-pre-line border-t border-zinc-100 pt-4 text-sm leading-6 text-zinc-600"></p>
+        </aside>
+      </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
